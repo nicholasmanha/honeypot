@@ -22,16 +22,11 @@ class Server {
 			break;
 		case "HTTP":
 			port = 80;
-			message = "HTTP/1.1 200 OK\r\n"
-					+ "Server: nginx/1.18.0 (Ubuntu)\r\n"
-					+ "Date: Thu, 01 May 2025 21:23:17 GMT\r\n"
-					+ "Content-Type: text/html\r\n"
-					+ "Content-Length: 5124\r\n"
-					+ "Last-Modified: Wed, 22 Mar 2023 14:54:48 GMT\r\n"
-					+ "Connection: keep-alive\r\n"
-					+ "ETag: \"641b16b8-1404\"\r\n"
-					+ "Referrer-Policy: strict-origin-when-cross-origin\r\n"
-					+ "X-Content-Type-Options: nosniff\r\n"
+			message = "HTTP/1.1 200 OK\r\n" + "Server: nginx/1.18.0 (Ubuntu)\r\n"
+					+ "Date: Thu, 01 May 2025 21:23:17 GMT\r\n" + "Content-Type: text/html\r\n"
+					+ "Content-Length: 5124\r\n" + "Last-Modified: Wed, 22 Mar 2023 14:54:48 GMT\r\n"
+					+ "Connection: keep-alive\r\n" + "ETag: \"641b16b8-1404\"\r\n"
+					+ "Referrer-Policy: strict-origin-when-cross-origin\r\n" + "X-Content-Type-Options: nosniff\r\n"
 					+ "Feature-Policy: accelerometer 'none'; camera 'none'; geolocation 'none'; gyroscope 'none'; magnetometer 'none'; microphone 'none'; payment 'none'; usb 'none'\r\n"
 					+ "Content-Security-Policy: default-src 'self'; script-src cdnjs.cloudflare.com 'self'; style-src cdnjs.cloudflare.com 'self' fonts.googleapis.com 'unsafe-inline'; font-src fonts.googleapis.com fonts.gstatic.com cdnjs.cloudflare.com; frame-ancestors 'none'; report-uri https://scotthelme.report-uri.com/r/d/csp/enforce\r\n"
 					+ "Accept-Ranges: bytes\r\n" + "\r\n" + "<h1>Welcome to Honeypot</h1>";
@@ -90,7 +85,7 @@ class Server {
 			}
 		}
 	}
-	
+
 	// ClientHandler class
 	private class ClientHandler implements Runnable {
 		Logger logger = Logger.getLogger(Server.class.getName());
@@ -132,18 +127,17 @@ class Server {
 				in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
 
 				// simulate the given service (from args)
-				if(port != 23) {
+				if (port != 23) {
 					out.println(message);
-				}
-				else {
+				} else {
 					OutputStream outputStream = clientSocket.getOutputStream();
-					
+
 					// convert string of hex into array of bytes
 					byte[] telnetResponse = HexFormat.of().parseHex(message);
-					
+
 					outputStream.write(telnetResponse);
 				}
-				
+
 				logger.info("Sent " + message + " to " + inet.getHostAddress());
 
 				String line;
@@ -155,7 +149,7 @@ class Server {
 					System.out.printf(" Sent from the client: %s\n", line);
 					out.println(message);
 				}
-				
+
 			} catch (IOException e) {
 				logger.severe("Connection Error: " + e + " from " + inet.getHostAddress());
 				e.printStackTrace();
